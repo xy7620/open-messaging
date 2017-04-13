@@ -1,32 +1,31 @@
 package io.openmessaging.demo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import io.openmessaging.KeyValue;
 import io.openmessaging.Message;
 import io.openmessaging.MessageHeader;
 import io.openmessaging.Producer;
 import io.openmessaging.PullConsumer;
-import junit.framework.Assert;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import org.junit.Assert;
 
 public class DemoTester {
 
 
     public static void main(String[] args) {
         KeyValue properties = new DefaultKeyValue();
-        properties.put("STORE_PATH", "/home/admin/test"); //瀹為檯娴嬭瘯鏃跺埄鐢� STORE_PATH 浼犲叆瀛樺偍璺緞
+        properties.put("STORE_PATH", "/home/admin/test"); //实际测试时利用 STORE_PATH 传入存储路径
 
-        //杩欎釜娴嬭瘯绋嬪簭鐨勬祴璇曢�昏緫涓庡疄闄呰瘎娴嬬浉浼硷紝浣嗘敞鎰忚繖閲屾槸鍗曠嚎绋嬬殑锛屽疄闄呮祴璇曟椂浼氭槸澶氱嚎绋嬬殑锛屽苟涓斿彂閫佸畬涔嬪悗浼欿ill杩涚▼锛屽啀璧锋秷璐归�昏緫
+        //这个测试程序的测试逻辑与实际评测相似，但注意这里是单线程的，实际测试时会是多线程的，并且发送完之后会Kill进程，再起消费逻辑
 
         Producer producer = new DefaultProducer(properties);
 
-        //鏋勯�犳祴璇曟暟鎹�
-        String topic1 = "TOPIC1"; //瀹為檯娴嬭瘯鏃跺ぇ姒備細鏈�100涓猅opic宸﹀彸
-        String topic2 = "TOPIC2"; //瀹為檯娴嬭瘯鏃跺ぇ姒備細鏈�100涓猅opic宸﹀彸
-        String queue1 = "QUEUE1"; //瀹為檯娴嬭瘯鏃跺ぇ姒備細鏈�100涓猀ueue宸﹀彸
-        String queue2 = "QUEUE2"; //瀹為檯娴嬭瘯鏃跺ぇ姒備細鏈�100涓猀ueue宸﹀彸
+        //构造测试数据
+        String topic1 = "TOPIC1"; //实际测试时大概会有100个Topic左右
+        String topic2 = "TOPIC2"; //实际测试时大概会有100个Topic左右
+        String queue1 = "QUEUE1"; //实际测试时大概会有100个Queue左右
+        String queue2 = "QUEUE2"; //实际测试时大概会有100个Queue左右
         List<Message> messagesForTopic1 = new ArrayList<>(1024);
         List<Message> messagesForTopic2 = new ArrayList<>(1024);
         List<Message> messagesForQueue1 = new ArrayList<>(1024);
@@ -39,7 +38,7 @@ public class DemoTester {
         }
 
         long start = System.currentTimeMillis();
-        //鍙戦��, 瀹為檯娴嬭瘯鏃讹紝浼氱敤澶氱嚎绋嬫潵鍙戦��, 姣忎釜绾跨▼鍙戦�佽嚜宸辩殑Topic鍜孮ueue
+        //发送, 实际测试时，会用多线程来发送, 每个线程发送自己的Topic和Queue
         for (int i = 0; i < 1024; i++) {
             producer.send(messagesForTopic1.get(i));
             producer.send(messagesForTopic2.get(i));
@@ -50,7 +49,7 @@ public class DemoTester {
 
         long T1 = end - start;
 
-        //娑堣垂鏍蜂緥1锛屽疄闄呮祴璇曟椂浼欿ill鎺夊彂閫佽繘绋嬶紝鍙﹀彇杩涚▼杩涜娑堣垂
+        //消费样例1，实际测试时会Kill掉发送进程，另取进程进行消费
         {
             PullConsumer consumer1 = new DefaultPullConsumer(properties);
             consumer1.attachQueue(queue1, Collections.singletonList(topic1));
@@ -61,12 +60,12 @@ public class DemoTester {
             while (true) {
                 Message message = consumer1.pullNoWait();
                 if (message == null) {
-                    //鎷夊彇涓簄ull鍒欒涓烘秷鎭凡缁忔媺鍙栧畬姣�
+                    //拉取为null则认为消息已经拉取完毕
                     break;
                 }
                 String topic = message.headers().getString(MessageHeader.TOPIC);
                 String queue = message.headers().getString(MessageHeader.QUEUE);
-                //瀹為檯娴嬭瘯鏃讹紝浼氫竴涓�姣旇緝鍚勪釜瀛楁
+                //实际测试时，会一一比较各个字段
                 if (topic != null) {
                     Assert.assertEquals(topic1, topic);
                     Assert.assertEquals(messagesForTopic1.get(topic1Offset++), message);
@@ -81,7 +80,7 @@ public class DemoTester {
 
         }
 
-        //娑堣垂鏍蜂緥2锛屽疄闄呮祴璇曟椂浼欿ill鎺夊彂閫佽繘绋嬶紝鍙﹀彇杩涚▼杩涜娑堣垂
+        //消费样例2，实际测试时会Kill掉发送进程，另取进程进行消费
         {
             PullConsumer consumer2 = new DefaultPullConsumer(properties);
             List<String> topics = new ArrayList<>();
@@ -95,13 +94,13 @@ public class DemoTester {
             while (true) {
                 Message message = consumer2.pullNoWait();
                 if (message == null) {
-                    //鎷夊彇涓簄ull鍒欒涓烘秷鎭凡缁忔媺鍙栧畬姣�
+                    //拉取为null则认为消息已经拉取完毕
                     break;
                 }
 
                 String topic = message.headers().getString(MessageHeader.TOPIC);
                 String queue = message.headers().getString(MessageHeader.QUEUE);
-                //瀹為檯娴嬭瘯鏃讹紝浼氫竴涓�姣旇緝鍚勪釜瀛楁
+                //实际测试时，会一一比较各个字段
                 if (topic != null) {
                     if (topic.equals(topic1)) {
                         Assert.assertEquals(messagesForTopic1.get(topic1Offset++), message);
