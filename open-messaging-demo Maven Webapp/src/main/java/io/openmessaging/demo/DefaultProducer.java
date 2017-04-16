@@ -8,6 +8,11 @@ import io.openmessaging.MessageHeader;
 import io.openmessaging.Producer;
 import io.openmessaging.Promise;
 
+/**
+ * @author XF
+ * 生产者默认实现<p>
+ * 主要有两个方法:生产消息和发送消息。
+ */
 public class DefaultProducer  implements Producer {
     private MessageFactory messageFactory = new DefaultMessageFactory();
     private MessageStore messageStore = MessageStore.getInstance();
@@ -39,6 +44,10 @@ public class DefaultProducer  implements Producer {
         return properties;
     }
 
+    /**
+     * 默认send方法<p>
+     * 检查topic与queue有且仅有一个，将它与对象再传给{@link MessageStore}
+     */
     @Override public void send(Message message) {
         if (message == null) throw new ClientOMSException("Message should not be null");
         String topic = message.headers().getString(MessageHeader.TOPIC);

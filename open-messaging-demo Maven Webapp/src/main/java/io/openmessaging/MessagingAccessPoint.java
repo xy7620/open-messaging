@@ -18,6 +18,7 @@
 package io.openmessaging;
 
 /**
+ * 用于创建Producer/Consumer等等对象的一个接口<p>
  * The {@code MessagingAccessPoint} obtained from {@link MessagingAccessPointManager} is capable of creating {@code
  * Producer}, {@code Consumer}, {@code ServiceEndPoint}, and so on.
  * <p> For example:

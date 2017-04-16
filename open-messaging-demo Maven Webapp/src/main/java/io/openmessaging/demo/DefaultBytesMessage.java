@@ -4,12 +4,22 @@ import io.openmessaging.BytesMessage;
 import io.openmessaging.KeyValue;
 import io.openmessaging.Message;
 
+
+/**
+ * @author XF
+ * 实现BytesMessage接口，包含三个属性，及相应的设置、获取方法
+ * <p>KeyValue header、 KeyValue properties、byte[] body
+ */
 public class DefaultBytesMessage implements BytesMessage {
 
     private KeyValue headers = new DefaultKeyValue();
     private KeyValue properties;
     private byte[] body;
 
+    /**
+     * 唯一的构造方法
+     * @param body
+     */
     public DefaultBytesMessage(byte[] body) {
         this.body = body;
     }

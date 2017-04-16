@@ -10,6 +10,11 @@ import java.util.Collections;
 import java.util.List;
 import org.junit.Assert;
 
+/**
+ * @author XF
+ * 测试类，比赛时会有其他测试类。
+ * <p>应该都是调用DefaultProducer与DefaultPullConsumer 及其他接口方法。
+ */
 public class DemoTester {
 
 

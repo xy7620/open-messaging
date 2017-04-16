@@ -18,17 +18,12 @@
 package io.openmessaging;
 
 /**
+ * 字节消息接口，实现message接口，用于设置/获取消息主体(byte[] body)
  * The {@code BytesMessage} contains a stream of uninterpreted bytes. It inherits from the {@code Message} interface and
  * adds a bytes message body.
  * <p>
  * The {@code BytesMessage} doesn't know the format or encoding Rules of the body, the provider and consumer decide the
  * interpretation of the bytes body.
- *
- * @author vintagewang@apache.org
- * @author yukon@apache.org
- *
- * @version OMS 1.0
- * @since OMS 1.0
  */
 public interface BytesMessage extends Message {
     /**

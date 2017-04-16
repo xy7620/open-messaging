@@ -18,10 +18,9 @@
 package io.openmessaging;
 
 /**
- * @author vintagewang@apache.org
- *
- * @version OMS 1.0
- * @since OMS 1.0
+ * Message 的header类型;<p>
+ * Message对象中有一个keyValue用于存储header;<p>
+ * key为以下header，value为具体值，所以每个Message对象每种header最多包含一个。
  */
 public class MessageHeader {
     public static final String MESSAGE_ID = "MessageId";

@@ -23,16 +23,12 @@ import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
 /**
- * A {@code PullConsumer} object to pull messages from a queue proactively,
+ * 主动从queue拉取message的接口
+ * <p>A {@code PullConsumer} object to pull messages from a queue proactively,
  * and is responsible for submit the consume result to a {@code MessagingAccessPoint}.
  * <p>
  * There are two ways to submit the consume result, see {@link PullConsumerAck} and {@link PullConsumerCursor}.
  *
- * @author vintagewang@apache.org
- * @author yukon@apache.org
- *
- * @version OMS 1.0
- * @since OMS 1.0
  */
 public interface PullConsumer extends ServiceLifecycle{
     /**
@@ -101,8 +97,8 @@ public interface PullConsumer extends ServiceLifecycle{
     Message pull(long timeout, TimeUnit unit, final KeyValue properties);
 
     /**
-     * Pulls the next message if one is immediately available.
-     *
+     * Pulls the next message if one is immediately available.<p>
+     * 拉取现有的下一个消息
      * @return the next message produced for this {@code PullConsumer}, or null if one is not available
      * @throws OMSRuntimeException if this {@code PullConsumer} fails to pull the next message due to some internal
      * error.
@@ -120,7 +116,8 @@ public interface PullConsumer extends ServiceLifecycle{
     Message pullNoWait(final KeyValue properties);
 
     /**
-     * Attach to the queue named by queueName, and subscribe the specified topics
+     * Attach to the queue named by queueName, and subscribe the specified topics<p>
+     * 通过queueName附上queue，并且订阅特定的topics
      * @param queueName the name of the queue
      * @param topics the subscribed topics
      */

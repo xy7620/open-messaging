@@ -4,6 +4,9 @@ import io.openmessaging.BytesMessage;
 import io.openmessaging.MessageFactory;
 import io.openmessaging.MessageHeader;
 
+/**
+ * 实现MessageFactory接口，通过topic/queue和消息主体body创建消息对象并返回
+ */
 public class DefaultMessageFactory implements MessageFactory {
 
     @Override public BytesMessage createBytesMessageToTopic(String topic, byte[] body) {

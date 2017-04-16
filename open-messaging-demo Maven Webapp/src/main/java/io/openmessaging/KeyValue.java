@@ -20,6 +20,7 @@ package io.openmessaging;
 import java.util.Set;
 
 /**
+ * 提供实例化的属性键值对，key为String，value有四种类型<p>
  * The {@code KeyValue} class represents a persistent set of properties, which supports method chaining.
  * <p>
  * A {@code KeyValue} object only allows {@code String} keys and can contain four primitive type as values:

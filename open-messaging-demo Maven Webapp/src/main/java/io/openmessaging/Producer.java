@@ -20,6 +20,9 @@ package io.openmessaging;
 import io.openmessaging.exception.OMSRuntimeException;
 
 /**
+ * 生产者接口<p>
+ * 	继承{@link MessageFactory }接口；<p>
+ * 	发送消息的send()方法，包含同步/异步/只管发送  有/无properties <p>
  * A {@code Producer} is a simple object used to send messages on behalf
  * of a {@code MessagingAccessPoint}. An instance of {@code Producer} is
  * created by calling the {@link MessagingAccessPoint#createProducer()} method.

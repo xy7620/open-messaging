@@ -20,14 +20,9 @@ package io.openmessaging;
 import io.openmessaging.exception.OMSRuntimeException;
 
 /**
+ * 实现{@link PullConsumer}接口，拥有它所有特征，另外可以验证message是否已经被接受但未被确认(需抛出异常)<p>
  * A {@code PullConsumerAck} object has all of the {@code PullConsumer} features,
  * and supports submit the consume result by acknowledgement.
- *
- * @author vintagewang@apache.org
- * @author yukon@apache.org
- *
- * @version OMS 1.0
- * @since OMS 1.0
  */
 public interface PullConsumerAck extends PullConsumer {
     /**

@@ -21,9 +21,7 @@ import io.openmessaging.exception.OMSRuntimeException;
 
 /**
  * A factory interface for creating {@code Message} objects.
- *
- * @author vintagewang@apache.org
- * @author yukon@apache.org
+ * <p>消息工厂接口，用于创建消息对象，需要topic/queue和消息主体body
  */
 public interface MessageFactory {
     /**

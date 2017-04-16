@@ -18,6 +18,7 @@
 package io.openmessaging;
 
 /**
+ * 所有OMS messages的跟接口，设置/获取 属性 header、 properties、body
  * The {@code Message} interface is the root interface of all OMS messages, and the most commonly used OMS message is
  * {@link BytesMessage}.
  * <p>

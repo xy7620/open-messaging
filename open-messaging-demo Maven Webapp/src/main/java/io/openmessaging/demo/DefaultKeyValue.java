@@ -5,6 +5,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+
+/**
+ * 用HashMap<String, Object>实现KeyValue接口，每个对象包含一个map
+ */
 public class DefaultKeyValue implements KeyValue {
 
     private final Map<String, Object> kvs = new HashMap<>();
