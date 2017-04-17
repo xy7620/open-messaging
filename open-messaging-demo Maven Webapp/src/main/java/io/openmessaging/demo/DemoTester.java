@@ -20,7 +20,7 @@ public class DemoTester {
 
     public static void main(String[] args) {
         KeyValue properties = new DefaultKeyValue();
-        properties.put("STORE_PATH", "/home/admin/test"); //实际测时利用 STORE_PATH 传入存储路径,进行持久化
+        properties.put("STORE_PATH", "/home/admin/test"); //实际测时利用 STORE_PATH 传入存储路径,进行持久化。。。
 
         //这个测试程序的测试逻辑与实际评测相似，但注意这里是单线程的，实际测试时会是多线程的，并且发送完之后会Kill进程，再起消费逻辑
 
