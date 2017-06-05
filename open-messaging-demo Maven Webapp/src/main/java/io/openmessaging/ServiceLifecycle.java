@@ -28,6 +28,12 @@ import javax.annotation.PreDestroy;
  * the lifecycle of the corresponding service endpoint objects easily.
  * <p>
  * Any service endpoint should support repeated restart if it implements the {@code ServiceLifecycle} interface.
+ *
+ * @author vintagewang@apache.org
+ * @author yukon@apache.org
+ *
+ * @version OMS 1.0
+ * @since OMS 1.0
  */
 public interface ServiceLifecycle {
     /**

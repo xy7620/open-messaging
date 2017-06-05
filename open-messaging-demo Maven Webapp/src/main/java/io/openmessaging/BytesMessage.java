@@ -18,12 +18,18 @@
 package io.openmessaging;
 
 /**
- * ×Ö½ÚÏûÏ¢½Ó¿Ú£¬ÊµÏÖmessage½Ó¿Ú£¬ÓÃÓÚÉèÖÃ/»ñÈ¡ÏûÏ¢Ö÷Ìå(byte[] body)
+ * å­—èŠ‚æ¶ˆæ¯æ¥å£ï¼Œå®ç°messageæ¥å£ï¼Œç”¨äºè®¾ç½®/è·å–æ¶ˆæ¯ä¸»ä½“(byte[] body)
  * The {@code BytesMessage} contains a stream of uninterpreted bytes. It inherits from the {@code Message} interface and
  * adds a bytes message body.
  * <p>
  * The {@code BytesMessage} doesn't know the format or encoding Rules of the body, the provider and consumer decide the
  * interpretation of the bytes body.
+ *
+ * @author vintagewang@apache.org
+ * @author yukon@apache.org
+ *
+ * @version OMS 1.0
+ * @since OMS 1.0
  */
 public interface BytesMessage extends Message {
     /**

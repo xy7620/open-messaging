@@ -4,11 +4,12 @@ import io.openmessaging.Message;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
 /**
  * @author XF
- * ÏûÏ¢µÄÖĞ×ª,Éú²úÕß·¢ËÍÏûÏ¢µ½´Ë£¬Ïû·ÑÕß´Ó´Ë»ñÈ¡ÏûÏ¢£¬Ïàµ±ÓÚserver <p>
- * Í¨¹ıgetInstance»ñÈ¡ÊµÀı£¬µ¥ÀıÄ£Ê½.<p>
- * º¬ÓĞ put/pullMessage µÄ·½·¨
+ * æ¶ˆæ¯çš„ä¸­è½¬,ç”Ÿäº§è€…å‘é€æ¶ˆæ¯åˆ°æ­¤ï¼Œæ¶ˆè´¹è€…ä»æ­¤è·å–æ¶ˆæ¯ï¼Œç›¸å½“äºserver <p>
+ * é€šè¿‡getInstanceè·å–å®ä¾‹ï¼Œå•ä¾‹æ¨¡å¼.<p>
+ * å«æœ‰ put/pullMessage çš„æ–¹æ³•
  */
 public class MessageStore {
 
@@ -19,22 +20,22 @@ public class MessageStore {
     }
 
     /**
-     * ÏûÏ¢Í°<p>
-     * key:bucket(topic»òÕßqueue)  --  value:¶ÔÓ¦µÄmessage list.<p>
-     * (Ê¹ÓÃArrayListÊÇÒòÎª°´Æ«ÒÆÈ¡£¬ĞèÒªÓĞĞò)
+     * æ¶ˆæ¯æ¡¶<p>
+     * key:bucket(topicæˆ–è€…queue)  --  value:å¯¹åº”çš„message list.<p>
+     * (ä½¿ç”¨ArrayListæ˜¯å› ä¸ºæŒ‰åç§»å–ï¼Œéœ€è¦æœ‰åº)
      */
     private Map<String, ArrayList<Message>> messageBuckets = new HashMap<>();
-    
+
     /**
-     * ÓÃÀ´¼ÇÂ¼µ±Ç°queue±»Ïû·Ñµ½ÄÄÀïÁË<p>
+     * ç”¨æ¥è®°å½•å½“å‰queueè¢«æ¶ˆè´¹åˆ°å“ªé‡Œäº†<p>
      * key:queue  --  value: HashMap< bucket, offset> <p>
-     * ÕâÑù¿´À´bucketÏñÊÇtopic¡£
+     * è¿™æ ·çœ‹æ¥bucketåƒæ˜¯topicã€‚
      */
     private Map<String, HashMap<String, Integer>> queueOffsets = new HashMap<>();
 
     /**
-     * ½«message´æÈëÏàÓ¦bucket(topic/queue)µÄlistÖĞ£¬Í¬²½·½·¨¡£<p>
-     * ¶ÔÃ¿¸öqueue»òÕßtopic¶¼ÓĞÒ»¸ölist´æ·ÅËüµÄmessage¡£
+     * å°†messageå­˜å…¥ç›¸åº”bucket(topic/queue)çš„listä¸­ï¼ŒåŒæ­¥æ–¹æ³•ã€‚<p>
+     * å¯¹æ¯ä¸ªqueueæˆ–è€…topicéƒ½æœ‰ä¸€ä¸ªlistå­˜æ”¾å®ƒçš„messageã€‚
      * @param bucket topic/queue
      * @param message
      */
@@ -45,14 +46,14 @@ public class MessageStore {
         ArrayList<Message> bucketList = messageBuckets.get(bucket);
         bucketList.add(message);
     }
+
     /**
-     * Í¨¹ıqueueÓëbucket»ñÈ¡ÏÂÒ»¸öÒªÏû·ÑµÄmessage¡£
-     * <p>»ñÈ¡bucketÏÂÒ»¸ömessageµÄÆ«ÒÆoffset£¬ÓÃoffset´ÓbucketListÖĞ»ñÈ¡message¡£
+     * é€šè¿‡queueä¸bucketè·å–ä¸‹ä¸€ä¸ªè¦æ¶ˆè´¹çš„messageã€‚
+     * <p>è·å–bucketä¸‹ä¸€ä¸ªmessageçš„åç§»offsetï¼Œç”¨offsetä»bucketListä¸­è·å–messageã€‚
      * @param queue
-     * @param bucket queue×ÔÉí»òÕß°ó¶¨µÄtopicsÖĞµÄÒ»¸ö¡£
+     * @param bucket queueè‡ªèº«æˆ–è€…ç»‘å®šçš„topicsä¸­çš„ä¸€ä¸ªã€‚
      */
    public synchronized Message pullMessage(String queue, String bucket) {
-	   //¸ÃbucketµÄmessageÁĞ±í
         ArrayList<Message> bucketList = messageBuckets.get(bucket);
         if (bucketList == null) {
             return null;
@@ -63,7 +64,6 @@ public class MessageStore {
             queueOffsets.put(queue, offsetMap);
         }
         int offset = offsetMap.getOrDefault(bucket, 0);
-        //´ú±í¶ÔÓ¦bucketµÄmessageÒÑ¾­È¡ÍêÁË
         if (offset >= bucketList.size()) {
             return null;
         }

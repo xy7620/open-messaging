@@ -1,13 +1,16 @@
 package io.openmessaging.demo;
 
 import io.openmessaging.KeyValue;
+
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
-
 /**
- * 用HashMap<String, Object>实现KeyValue接口，每个对象包含一个map
+ * 鐢℉ashMap<String, Object>瀹炵幇KeyValue鎺ュ彛锛屾瘡涓璞″寘鍚竴涓猰ap
  */
 public class DefaultKeyValue implements KeyValue {
 
@@ -65,4 +68,16 @@ public class DefaultKeyValue implements KeyValue {
     public boolean containsKey(String key) {
         return kvs.containsKey(key);
     }
+
+	public int size() {
+		// TODO Auto-generated method stub
+		return kvs.size();
+	}
+
+	public Set<Entry<String, Object>> entrySet() {
+		// TODO Auto-generated method stub
+		return kvs.entrySet();
+	}
+
+
 }

@@ -19,18 +19,19 @@ package io.openmessaging;
 
 import io.openmessaging.exception.OMSRuntimeException;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 /**
- * ������queue��ȡmessage�Ľӿ�
- * <p>A {@code PullConsumer} object to pull messages from a queue proactively,
- * and is responsible for submit the consume result to a {@code MessagingAccessPoint}.
- * <p>
- * There are two ways to submit the consume result, see {@link PullConsumerAck} and {@link PullConsumerCursor}.
+ * 主动从queue拉取message的接口
+ * A {@code PullConsumer} object can poll messages from the specified queue,
+ * and supports submit the consume result by acknowledgement.
  *
+ * @author vintagewang@apache.org
+ * @author yukon@apache.org
+ * @version OMS 1.0
+ * @see MessagingAccessPoint#createPullConsumer(String)
+ * @since OMS 1.0
  */
-public interface PullConsumer extends ServiceLifecycle{
+public interface PullConsumer {
     /**
      * Returns the properties of this {@code PullConsumer} instance.
      * Changes to the return {@code KeyValue} are not reflected in physical {@code PullConsumer},
@@ -41,8 +42,8 @@ public interface PullConsumer extends ServiceLifecycle{
     KeyValue properties();
 
     /**
-     * Pulls the next message produced for this {@code PullConsumer}.
-     * <P>
+     * Polls the next message produced for this {@code PullConsumer}.
+     * <p>
      * This call blocks indefinitely until a message is produced or until this {@code PullConsumer} is shut down.
      *
      * @return the next message produced for this {@code PullConsumer}, or null if this {@code PullConsumer} is
@@ -50,11 +51,15 @@ public interface PullConsumer extends ServiceLifecycle{
      * @throws OMSRuntimeException if this {@code PullConsumer} fails to pull the next message due to some internal
      * error.
      */
-    Message pull();
+    /**
+     * 规范要求实现阻塞的接口，由properties来设置阻塞时间，但本赛题不需要用到该特性，请实现一个非阻塞(也即阻塞时间为0)调用, 也即没有消息则返回null
+     * @return
+     */
+    Message poll();
 
     /**
-     * Pulls the next message produced for this {@code PullConsumer}, using the specified properties.
-     * <P>
+     * Polls the next message produced for this {@code PullConsumer}, using the specified properties.
+     * <p>
      * This call blocks indefinitely until a message is produced or until this {@code PullConsumer} is shut down.
      *
      * @param properties the specified properties
@@ -63,63 +68,30 @@ public interface PullConsumer extends ServiceLifecycle{
      * @throws OMSRuntimeException if this {@code PullConsumer} fails to pull the next message due to some internal
      * error.
      */
-    Message pull(final KeyValue properties);
+    Message poll(final KeyValue properties);
 
     /**
-     * Pulls the next message that arrives within the specified timeout interval.
-     * <P>
-     * This call blocks until a message arrives, the timeout expires, or this {@code PullConsumer} is shut down.
-     * A {@code timeout} of zero never expires, and the call blocks indefinitely.
+     * Acknowledges the specified and consumed message, with unique message id.
+     * <p>
+     * Messages that have been received but not acknowledged may be redelivered.
      *
-     * @param timeout how long to wait before giving up, in units of {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the {@code timeout} parameter
-     * @return the next message produced for this {@code PullConsumer}, or null if the timeout expires or this {@code
-     * PullConsumer} is concurrently closed
-     * @throws OMSRuntimeException if this {@code PullConsumer} fails to receive the next message due to some internal
-     * error.
+     * @throws OMSRuntimeException if the consumer fails to acknowledge the messages due to some internal error.
      */
-    Message pull(long timeout, TimeUnit unit);
+    void ack(String messageId);
 
     /**
-     * Pulls the next message that arrives within the specified timeout interval, using the specified properties.
-     * <P>
-     * This call blocks until a message arrives, the timeout expires, or this {@code PullConsumer} is shut down.
-     * A {@code timeout} of zero never expires, and the call blocks indefinitely.
+     * Acknowledges the specified and consumed message with the specified properties.
+     * <p>
+     * Messages that have been received but not acknowledged may be redelivered.
      *
-     * @param timeout how long to wait before giving up, in units of {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the {@code timeout} parameter
-     * @param properties the specified properties
-     * @return the next message produced for this {@code PullConsumer}, or null if the timeout expires or this {@code
-     * PullConsumer} is concurrently closed
-     * @throws OMSRuntimeException if this {@code PullConsumer} fails to receive the next message due to some internal
-     * error.
+     * @throws OMSRuntimeException if the consumer fails to acknowledge the messages due to some internal error.
      */
-    Message pull(long timeout, TimeUnit unit, final KeyValue properties);
+    void ack(String messageId, final KeyValue properties);
 
     /**
-     * Pulls the next message if one is immediately available.<p>
-     * ��ȡ���е���һ����Ϣ
-     * @return the next message produced for this {@code PullConsumer}, or null if one is not available
-     * @throws OMSRuntimeException if this {@code PullConsumer} fails to pull the next message due to some internal
-     * error.
+     * 绑定到一个Queue，并订阅topics，即从这些topic读取消息
+     * @param queueName
+     * @param topics
      */
-    Message pullNoWait();
-
-    /**
-     * Pulls the next message if one is immediately available, using the specified properties.
-     *
-     * @return the next message produced for this {@code PullConsumer}, or null if one is not available
-     * @param properties the specified properties
-     * @throws OMSRuntimeException if this {@code PullConsumer} fails to pull the next message due to some internal
-     * error.
-     */
-    Message pullNoWait(final KeyValue properties);
-
-    /**
-     * Attach to the queue named by queueName, and subscribe the specified topics<p>
-     * ͨ��queueName����queue�����Ҷ����ض���topics
-     * @param queueName the name of the queue
-     * @param topics the subscribed topics
-     */
-    void attachQueue(final String queueName, final Collection<String> topics);
+    void attachQueue(String queueName, Collection<String> topics);
 }

@@ -1,23 +1,25 @@
 package io.openmessaging.demo;
 
+import java.io.Serializable;
+
 import io.openmessaging.BytesMessage;
 import io.openmessaging.KeyValue;
 import io.openmessaging.Message;
 
-
 /**
  * @author XF
- * ÊµÏÖBytesMessage½Ó¿Ú£¬°üº¬Èı¸öÊôĞÔ£¬¼°ÏàÓ¦µÄÉèÖÃ¡¢»ñÈ¡·½·¨
- * <p>KeyValue header¡¢ KeyValue properties¡¢byte[] body
+ * å®ç°BytesMessageæ¥å£ï¼ŒåŒ…å«ä¸‰ä¸ªå±æ€§ï¼ŒåŠç›¸åº”çš„è®¾ç½®ã€è·å–æ–¹æ³•
+ * <p>KeyValue headerã€ KeyValue propertiesã€byte[] body
  */
-public class DefaultBytesMessage implements BytesMessage {
+public class DefaultBytesMessage implements BytesMessage{
 
     private KeyValue headers = new DefaultKeyValue();
+    //æ³¨æ„è¿™é‡Œæ²¡æœ‰åˆå§‹åŒ–ï¼Œå¦‚æœæ²¡æœ‰è¿™ä¸ªå±æ€§é‚£ä¹ˆä¸ºnullï¼Œæ¶ˆè´¹è€…è¯»æ–‡ä»¶ä¸ç”¨æ–°å»ºå¯¹è±¡ã€‚
     private KeyValue properties;
     private byte[] body;
 
     /**
-     * Î¨Ò»µÄ¹¹Ôì·½·¨
+     * å”¯ä¸€çš„æ„é€ æ–¹æ³•
      * @param body
      */
     public DefaultBytesMessage(byte[] body) {
@@ -82,5 +84,9 @@ public class DefaultBytesMessage implements BytesMessage {
         if (properties == null) properties = new DefaultKeyValue();
         properties.put(key, value);
         return this;
+    }
+    public void clean(){
+    	this.headers = new DefaultKeyValue();
+    	this.properties = null;
     }
 }

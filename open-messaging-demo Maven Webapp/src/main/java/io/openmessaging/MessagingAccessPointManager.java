@@ -17,10 +17,12 @@
 
 package io.openmessaging;
 
-
 /**
- * @author XF
- * 用于创建MessagingAccessPoint，传入参数url，properties（可选）
+ * 鐢ㄤ簬鍒涘缓MessagingAccessPoint锛屼紶鍏ュ弬鏁皍rl锛宲roperties锛堝彲閫夛級
+ * @author vintagewang@apache.org
+ *
+ * @version OMS 1.0
+ * @since OMS 1.0
  */
 public class MessagingAccessPointManager {
     public static MessagingAccessPoint getMessagingAccessPoint(String url) {
@@ -28,7 +30,6 @@ public class MessagingAccessPointManager {
     }
 
     public static MessagingAccessPoint getMessagingAccessPoint(String url, KeyValue properties) {
-
         return null;
     }
 

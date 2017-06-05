@@ -17,25 +17,23 @@
 
 package io.openmessaging;
 
+import io.openmessaging.exception.OMSRuntimeException;
+
+import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
- * Ã·π© µ¿˝ªØµƒ Ù–‘º¸÷µ∂‘£¨keyŒ™String£¨value”–Àƒ÷÷¿‡–Õ<p>
- * The {@code KeyValue} class represents a persistent set of properties, which supports method chaining.
- * <p>
- * A {@code KeyValue} object only allows {@code String} keys and can contain four primitive type as values:
- * {@code int}, {@code long}, {@code double}, {@code String}.
- * <p>
- * The {@code KeyValue} is a replacement of {@code Properties}, with simpler interfaces and reasonable entry limits.
- * <p>
- * A {@code KeyValue} object may be used in concurrent scenarios, so the implementation of {@code KeyValue} should
- * consider concurrent related issues.
- * <p>
- * All the existing entries in {@code KeyValue} can't be removed but can be replaced by a new value for the specified key.
+ * Êèê‰æõÂÆû‰æãÂåñÁöÑÂ±ûÊÄßÈîÆÂÄºÂØπÔºåkey‰∏∫StringÔºåvalueÊúâÂõõÁßçÁ±ªÂûã<p>
+ * The {@code KeyValue} class represents a persistent set of properties, which supports method chaining. <p> A {@code
+ * KeyValue} object only allows {@code String} keys and can contain four primitive type as values: {@code int}, {@code
+ * long}, {@code double}, {@code String}. <p> The {@code KeyValue} is a replacement of {@code Properties}, with simpler
+ * interfaces and reasonable entry limits. <p> A {@code KeyValue} object may be used in concurrent scenarios, so the
+ * implementation of {@code KeyValue} should consider concurrent related issues. <p> All the existing entries in {@code
+ * KeyValue} can't be removed but can be replaced by a new value for the specified key.
  *
  * @author vintagewang@apache.org
  * @author yukon@apache.org
- *
  * @version OMS 1.0
  * @since OMS 1.0
  */
@@ -46,7 +44,7 @@ public interface KeyValue {
      * @param key the key to be placed into this {@code KeyValue} object
      * @param value the value corresponding to <tt>key</tt>
      */
-    KeyValue put(final String key, final int value);
+    KeyValue put(String key, int value);
 
     /**
      * Inserts or replaces {@code long} value for the specified key.
@@ -54,7 +52,7 @@ public interface KeyValue {
      * @param key the key to be placed into this {@code KeyValue} object
      * @param value the value corresponding to <tt>key</tt>
      */
-    KeyValue put(final String key, final long value);
+    KeyValue put(String key, long value);
 
     /**
      * Inserts or replaces {@code double} value for the specified key.
@@ -62,7 +60,7 @@ public interface KeyValue {
      * @param key the key to be placed into this {@code KeyValue} object
      * @param value the value corresponding to <tt>key</tt>
      */
-    KeyValue put(final String key, final double value);
+    KeyValue put(String key, double value);
 
     /**
      * Inserts or replaces {@code String} value for the specified key.
@@ -70,7 +68,7 @@ public interface KeyValue {
      * @param key the key to be placed into this {@code KeyValue} object
      * @param value the value corresponding to <tt>key</tt>
      */
-    KeyValue put(final String key, final String value);
+    KeyValue put(String key, String value);
 
     /**
      * Searches for the {@code int} property with the specified key in this {@code KeyValue} object.
@@ -78,9 +76,10 @@ public interface KeyValue {
      *
      * @param key the property key
      * @return the value in this {@code KeyValue} object with the specified key value
+     * @throws OMSRuntimeException if the specified {@code key} doesn't exist in this object.
      * @see #put(String, int)
      */
-    int getInt(final String key);
+    int getInt(String key);
 
     /**
      * Searches for the {@code long} property with the specified key in this {@code KeyValue} object.
@@ -88,9 +87,10 @@ public interface KeyValue {
      *
      * @param key the property key
      * @return the value in this {@code KeyValue} object with the specified key value
+     * @throws OMSRuntimeException if the specified {@code key} doesn't exist in this object.
      * @see #put(String, long)
      */
-    long getLong(final String key);
+    long getLong(String key);
 
     /**
      * Searches for the {@code double} property with the specified key in this {@code KeyValue} object.
@@ -98,9 +98,10 @@ public interface KeyValue {
      *
      * @param key the property key
      * @return the value in this {@code KeyValue} object with the specified key value
+     * @throws OMSRuntimeException if the specified {@code key} doesn't exist in this object.
      * @see #put(String, double)
      */
-    double getDouble(final String key);
+    double getDouble(String key);
 
     /**
      * Searches for the {@code String} property with the specified key in this {@code KeyValue} object.
@@ -108,9 +109,10 @@ public interface KeyValue {
      *
      * @param key the property key
      * @return the value in this {@code KeyValue} object with the specified key value
+     * @throws OMSRuntimeException if the specified {@code key} doesn't exist in this object.
      * @see #put(String, String)
      */
-    String getString(final String key);
+    String getString(String key);
 
     /**
      * Returns a {@link Set} view of the keys contained in this {@code KeyValue} object.
@@ -125,7 +127,12 @@ public interface KeyValue {
      * Tests if the specified {@code String} is a key in this {@code KeyValue}.
      *
      * @param key possible key
-     * @return <code>true</code> if and only if the specified key is in this {@code KeyValue}, <code>false</code> otherwise.
+     * @return <code>true</code> if and only if the specified key is in this {@code KeyValue}, <code>false</code>
+     * otherwise.
      */
-    boolean containsKey(final String key);
+    boolean containsKey(String key);
+    
+//    int size();
+//    
+//    Set<Entry<String, Object>> entrySet();
 }

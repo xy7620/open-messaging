@@ -5,10 +5,13 @@ import io.openmessaging.MessageFactory;
 import io.openmessaging.MessageHeader;
 
 /**
- * ÊµÏÖMessageFactory½Ó¿Ú£¬Í¨¹ıtopic/queueºÍÏûÏ¢Ö÷Ìåbody´´½¨ÏûÏ¢¶ÔÏó²¢·µ»Ø
+ * å®ç°MessageFactoryæ¥å£ï¼Œé€šè¿‡topic/queueå’Œæ¶ˆæ¯ä¸»ä½“bodyåˆ›å»ºæ¶ˆæ¯å¯¹è±¡å¹¶è¿”å›
+ * åˆ›å»ºæ¶ˆæ¯
  */
 public class DefaultMessageFactory implements MessageFactory {
 
+	DefaultBytesMessage defaultBytesMessage = new DefaultBytesMessage(null);
+	
     @Override public BytesMessage createBytesMessageToTopic(String topic, byte[] body) {
         DefaultBytesMessage defaultBytesMessage = new DefaultBytesMessage(body);
         defaultBytesMessage.putHeaders(MessageHeader.TOPIC, topic);
@@ -17,6 +20,20 @@ public class DefaultMessageFactory implements MessageFactory {
 
     @Override public BytesMessage createBytesMessageToQueue(String queue, byte[] body) {
         DefaultBytesMessage defaultBytesMessage = new DefaultBytesMessage(body);
+        defaultBytesMessage.putHeaders(MessageHeader.QUEUE, queue);
+        return defaultBytesMessage;
+    }
+    
+    public BytesMessage changeBytesMessageToTopic(String topic, byte[] body) {
+    	defaultBytesMessage.setBody(body);
+    	defaultBytesMessage.clean();
+        defaultBytesMessage.putHeaders(MessageHeader.TOPIC, topic);
+        return defaultBytesMessage;
+    }
+    
+    public BytesMessage changeBytesMessageToQueue(String queue, byte[] body) {
+    	defaultBytesMessage.setBody(body);
+    	defaultBytesMessage.clean();
         defaultBytesMessage.putHeaders(MessageHeader.QUEUE, queue);
         return defaultBytesMessage;
     }

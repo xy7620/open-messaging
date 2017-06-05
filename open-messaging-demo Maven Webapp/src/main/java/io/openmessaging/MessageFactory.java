@@ -20,8 +20,11 @@ package io.openmessaging;
 import io.openmessaging.exception.OMSRuntimeException;
 
 /**
+ * <p>娑堟伅宸ュ巶鎺ュ彛锛岀敤浜庡垱寤烘秷鎭璞★紝闇�瑕乼opic/queue鍜屾秷鎭富浣揵ody
  * A factory interface for creating {@code Message} objects.
- * <p>消息工厂接口，用于创建消息对象，需要topic/queue和消息主体body
+ *
+ * @author vintagewang@apache.org
+ * @author yukon@apache.org
  */
 public interface MessageFactory {
     /**
@@ -35,7 +38,7 @@ public interface MessageFactory {
      * @return the created {@code BytesMessage} object
      * @throws OMSRuntimeException if the OMS provider fails to create this message due to some internal error.
      */
-    BytesMessage createBytesMessageToTopic(final String topic, final byte[] body);
+    BytesMessage createBytesMessageToTopic(String topic, byte[] body);
 
     /**
      * Creates a {@code BytesMessage} object. A {@code BytesMessage} object is used to send a message containing a
@@ -48,5 +51,5 @@ public interface MessageFactory {
      * @return the created {@code BytesMessage} object
      * @throws OMSRuntimeException if the OMS provider fails to create this message due to some internal error.
      */
-    BytesMessage createBytesMessageToQueue(final String queue, final byte[] body);
+    BytesMessage createBytesMessageToQueue(String queue, byte[] body);
 }

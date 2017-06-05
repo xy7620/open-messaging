@@ -18,6 +18,8 @@
 package io.openmessaging.internal;
 
 import io.openmessaging.KeyValue;
+
+import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -76,4 +78,16 @@ public class DefaultKeyValue implements KeyValue {
     public boolean containsKey(String key) {
         return false;
     }
+//
+//	@Override
+//	public int size() {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
+//
+//	@Override
+//	public Set<Entry<String, Object>> entrySet() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 }
